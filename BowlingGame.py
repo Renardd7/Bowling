@@ -1,35 +1,38 @@
 class BowlingGame:
     def __init__(self):
-        self.rolls=[]
+        self.rolls = []
 
-    def roll(self,pins):
+    def roll(self, pins):
         self.rolls.append(pins)
 
     def score(self):
-        result = 0
-        rollIndex=0
-        for frameIndex in range(10):
-            if frameIndex in range(10):
-                result += self.StrikeScore(rollIndex)
-                rollIndex +=1
-            elif self.isSpare(rollIndex):
-                result += self.spareScore(rollIndex)
-                rollIndex +=2
+        total_score = 0
+        roll_index = 0
+
+        for _ in range(10):
+            if self.is_strike(roll_index):
+                total_score += self.strike_score(roll_index)
+                roll_index += 1
+            elif self.is_spare(roll_index):
+                total_score += self.spare_score(roll_index)
+                roll_index += 2
             else:
-                result += self.frameScore(rollIndex)
-            rollIndex +=2
-            return result
+                total_score += self.frame_score(roll_index)
+                roll_index += 2
 
-    def isStrike(self, rollIndex):
-        return self.rolls[rollIndex] == 10
-    def isSpare(self, rollIndex):
-        return self.rolls[rollIndex]+ self.rolls[rollIndex+1]==10
-    def stickeScore(self,rollIndex):
-        return  10+ self.rolls[rollIndex+1]+ self.rolls[rollIndex+2]
+        return total_score
 
-    def spareScore(self,rollIndex):
-        return  10+ self.rolls[rollIndex+2]
+    def is_strike(self, roll_index):
+        return self.rolls[roll_index] == 10
 
-    def frameScore(self, rollIndex):
-        return self.rolls[rollIndex] + self.rolls[rollIndex + 1]
-		
+    def is_spare(self, roll_index):
+        return self.rolls[roll_index] + self.rolls[roll_index + 1] == 10
+
+    def strike_score(self, roll_index):
+        return 10 + self.rolls[roll_index + 1] + self.rolls[roll_index + 2]
+
+    def spare_score(self, roll_index):
+        return 10 + self.rolls[roll_index + 2]
+
+    def frame_score(self, roll_index):
+        return self.rolls[roll_index] + self.rolls[roll_index + 1]
